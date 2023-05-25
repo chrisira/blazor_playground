@@ -1,4 +1,6 @@
 ﻿@page "/counter"
+@page "/counter/{startingValue:int}"
+@page "/mubazi"
 
 <PageTitle>Counter</PageTitle>
 
@@ -13,6 +15,16 @@
 
     [Parameter]
     public int IncrementBy { get; set; } = 1;
+
+    [Parameter]
+    public int startingValue { get; set; } = 0;
+
+    protected override void OnParametersSet()
+
+    {
+        currentCount = startingValue;
+        base.OnParametersSet();
+    }
 
     private void IncrementCount()
     {
