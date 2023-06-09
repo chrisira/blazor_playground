@@ -1,0 +1,37 @@
+﻿@page "/shop"
+@using BlazzorOverview.Data
+<h3>ShoppingList</h3>
+<ul>
+    @foreach(var grocery in groceries)
+    {
+        <li>@grocery.Name -- @grocery.Price</li>
+    }
+</ul>
+<input class="form-control" type="text" @bind="GroceryName" placeholder="grocery name"/>
+<br />
+<input class="form-control" type="number" @bind="GroceryPrice" placeholder="grocery price"/>
+<br />
+<button class="btn btn-primary" @onclick="AddGrocery">Add Grocery </button>
+
+<hr />
+<h5>The total is : (@groceries.Sum(grocery=>grocery.Price))</h5>
+
+@code {
+    private string GroceryName;
+    private float GroceryPrice;
+    private List<Grocery> groceries = new();
+    private void AddGrocery()
+    {
+        // checkin if the values are not empty
+        if (!string.IsNullOrWhiteSpace(GroceryName) && GroceryPrice > 0)
+        {
+            // adding the values to the groceries list
+            groceries.Add(new Grocery { Name = GroceryName, Price = GroceryPrice });
+
+            GroceryName = string.Empty;
+            GroceryPrice = 0;
+        }
+
+    }
+
+}
