@@ -1,0 +1,26 @@
+﻿@using BlazzorOverview.Data
+<tr>
+    <td>@GroceryItem.Name</td>
+    <td>@GroceryItem.Price</td>
+    <td>
+        <button class="btn btn-outline-primary btn-sm" @onclick="Addprice">+100</button>
+    </td>
+</tr>
+
+@code {
+    //adding parameters to the component
+    [Parameter]
+    public Grocery GroceryItem { get; set; }
+
+    //adding oneventcallback parameter to update the price when the item is called and it will be passed into the components
+    [Parameter]
+    public EventCallback <MouseEventArgs> OnGroceryPriceIncreased { get; set; }
+
+    // adding the asynchronous method to make the button works and it will add specified amount
+    private async Task Addprice()
+    {
+        GroceryItem.Price += 100;
+        await OnGroceryPriceIncreased.InvokeAsync();
+    }
+
+}

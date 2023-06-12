@@ -2,20 +2,28 @@
 @using BlazzorOverview.Data
 <PageTitle>@title</PageTitle>
 <h3>ShoppingList</h3>
-<ul>
-    @foreach(var grocery in groceries)
-    {
-        <li>@grocery.Name -- @grocery.Price</li>
-    }
-</ul>
-<input class="form-control" type="text" @bind="GroceryName" placeholder="grocery name"/>
+<input class="form-control" type="text" @bind="GroceryName" placeholder="grocery name" />
 <br />
-<input class="form-control" type="number" @bind="GroceryPrice" placeholder="grocery price"/>
+<input class="form-control" type="number" @bind="GroceryPrice" placeholder="grocery price" />
 <br />
 <button class="btn btn-primary" @onclick="AddGrocery">Add Grocery </button>
 
 <hr />
 <h5>The total is : (@sum)</h5>
+<table class="table table-striped">
+    <tr class="bg-primary text-white">
+        <th>Name</th>
+        <th>Price</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var grocery in groceries){
+    
+        //using the item component that we created to display an actual shopping list item
+        // we will also attach a handler of OnGroceryPriceIncreased to the method we use to handle that
+        <Item GroceryItem="@grocery" OnGroceryPriceIncreased="OnGroceryPriceIncreased" />
+    }
+</table>
+
 
 @code {
     private string GroceryName ;
@@ -30,12 +38,25 @@
         {
             // adding the values to the groceries list
             groceries.Add(new Grocery { Name = GroceryName, Price = GroceryPrice });
-            sum += GroceryPrice;
 
             GroceryName = string.Empty;
             GroceryPrice = 0;
         }
+        UpdateTotalAmount();
 
+
+    }
+    // adding the method to update the total amount
+    public void UpdateTotalAmount()
+    {
+        sum = groceries.Sum(x => x.Price);
+
+    }
+
+    // making OnGroceryPriceIncreased method
+    public void OnGroceryPriceIncreased()
+    {
+        UpdateTotalAmount();
     }
 
 }
