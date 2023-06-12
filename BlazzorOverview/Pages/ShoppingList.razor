@@ -15,11 +15,12 @@
 <button class="btn btn-primary" @onclick="AddGrocery">Add Grocery </button>
 
 <hr />
-<h5>The total is : (@groceries.Sum(grocery=>grocery.Price))</h5>
+<h5>The total is : (@sum)</h5>
 
 @code {
     private string GroceryName ;
     private string title = "Our groceries";
+    private float sum = 0;
     private float GroceryPrice;
     private List<Grocery> groceries = new();
     private void AddGrocery()
@@ -29,6 +30,7 @@
         {
             // adding the values to the groceries list
             groceries.Add(new Grocery { Name = GroceryName, Price = GroceryPrice });
+            sum += GroceryPrice;
 
             GroceryName = string.Empty;
             GroceryPrice = 0;
