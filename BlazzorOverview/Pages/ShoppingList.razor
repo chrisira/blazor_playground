@@ -1,5 +1,6 @@
 ﻿@page "/shop"
 @using BlazzorOverview.Data
+<PageTitle>@title</PageTitle>
 <h3>ShoppingList</h3>
 <ul>
     @foreach(var grocery in groceries)
@@ -17,7 +18,8 @@
 <h5>The total is : (@groceries.Sum(grocery=>grocery.Price))</h5>
 
 @code {
-    private string GroceryName;
+    private string GroceryName ;
+    private string title = "Our groceries";
     private float GroceryPrice;
     private List<Grocery> groceries = new();
     private void AddGrocery()
