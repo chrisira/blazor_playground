@@ -2,12 +2,25 @@
 @using BlazzorOverview.Data
 <PageTitle>@title</PageTitle>
 <h3>ShoppingList</h3>
-<input class="form-control" type="text" @bind="GroceryName" placeholder="grocery name" />
-<br />
-<input class="form-control" type="number" @bind="GroceryPrice" placeholder="grocery price" />
-<br />
-<button class="btn btn-primary" @onclick="AddGrocery">Add Grocery </button>
 
+<EditForm Model="@grocery" OnSubmit="AddGrocery">
+    <DataAnnotationsValidator/>
+    <ValidationSummary />
+    <p>
+        <label>
+            Name : 
+            <InputText class="form-control" @bind-Value="grocery.Name" />
+        </label>
+    </p>
+    <p>
+        <label>
+            Price :
+            <InputNumber class="form-control" @bind-Value="grocery.Price" />
+        </label>
+    </p>
+    <button class="btn btn-success" type="submit">Add Grocery</button>
+
+</EditForm>
 <hr />
 <h5>The total is : (@sum)</h5>
 <table class="table table-striped">
@@ -30,18 +43,12 @@
     private string title = "Our groceries";
     private float sum = 0;
     private float GroceryPrice;
+    private Grocery grocery = new();
     private List<Grocery> groceries = new();
     private void AddGrocery()
     {
-        // checkin if the values are not empty
-        if (!string.IsNullOrWhiteSpace(GroceryName) && GroceryPrice > 0)
-        {
-            // adding the values to the groceries list
-            groceries.Add(new Grocery { Name = GroceryName, Price = GroceryPrice });
-
-            GroceryName = string.Empty;
-            GroceryPrice = 0;
-        }
+        groceries.Add(grocery);
+        grocery = new();
         UpdateTotalAmount();
 
 
